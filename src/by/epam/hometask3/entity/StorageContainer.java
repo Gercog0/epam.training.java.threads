@@ -3,6 +3,7 @@ package by.epam.hometask3.entity;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class StorageContainer {
@@ -31,11 +32,17 @@ public class StorageContainer {
 
     public AtomicInteger loadContainers(Ship ship) {
         AtomicInteger quantityLoaded = new AtomicInteger(0);
-        while (!(currentCapacity.get() <= MAX_CAPACITY) && ship.deleteContainer()) {
+
+        while (currentCapacity.get() <= MAX_CAPACITY && ship.deleteContainer()) {
             currentCapacity.decrementAndGet();
             quantityLoaded.incrementAndGet();
+            try {
+                TimeUnit.MILLISECONDS.sleep(500);
+            } catch (InterruptedException exp) {
+                logger.debug(exp.getMessage());
+            }
         }
-        logger.debug("load: " + quantityLoaded.get());
+        logger.debug("load: " + quantityLoaded.get() + ", to ship: " + ship);
         return quantityLoaded;
     }
 
@@ -44,8 +51,13 @@ public class StorageContainer {
         while (currentCapacity.get() != MAX_CAPACITY && ship.addContainer()) {
             currentCapacity.incrementAndGet();
             quantityUnloaded.incrementAndGet();
+            try {
+                TimeUnit.MILLISECONDS.sleep(500);
+            } catch (InterruptedException exp) {
+                logger.debug(exp.getMessage());
+            }
         }
-        logger.debug("unload: " + quantityUnloaded.get());
+        logger.debug("unload: " + quantityUnloaded.get() + ",from ship: " + ship);
         return quantityUnloaded;
     }
 }

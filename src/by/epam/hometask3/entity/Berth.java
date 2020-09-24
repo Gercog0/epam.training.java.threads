@@ -15,6 +15,14 @@ public class Berth {
         this.id = id;
     }
 
+    public void unloadToStorageContainer(Ship ship) {
+        StorageContainer.getInstance().unloadContainers(ship);
+    }
+
+    public void loadFromStorageContainer(Ship ship) {
+        StorageContainer.getInstance().loadContainers(ship);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

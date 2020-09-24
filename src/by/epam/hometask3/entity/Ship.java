@@ -1,7 +1,7 @@
 package by.epam.hometask3.entity;
 
-import by.epam.hometask3.state.ShipState;
-import by.epam.hometask3.state.impl.ArrivingStateImpl;
+import by.epam.hometask3.entity.state.ShipState;
+import by.epam.hometask3.entity.state.impl.ArrivingStateImpl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
